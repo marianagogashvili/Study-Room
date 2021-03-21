@@ -34,13 +34,13 @@ export class SolutionComponent implements OnInit {
 
   uploadMode;
   editMode;
-  // loading;
+  loading;
 
 
   constructor(private solutionService: SolutionService) { }
 
   ngOnInit() {
-  	// this.loading = true;
+  	this.loading = true;
   	this.uploadMode = false;
   	this.editMode = false;
 
@@ -62,10 +62,10 @@ export class SolutionComponent implements OnInit {
   			if (solution) {
   				this.solution = solution;
 	  			this.solutionFiles = [...solution.fileUrl];
-	  			// this.loading = false;
+	  			
 	  			console.log(solution);
   			}
-  			
+  			this.loading = false;
   		});
   }
 

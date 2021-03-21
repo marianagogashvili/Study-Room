@@ -21,9 +21,6 @@
 	color: #6E6E6DFF;
 }
 
-.solution__div h2 {
-	display: none;
-}
 
 button {
 	cursor: pointer;
@@ -194,11 +191,10 @@ td {
 	padding-right: 1rem;
 }
 
-@media screen and (min-width: 700px) {
-	.solution__div h2 {
-		display: block;
-	}
+.upload__div {
+	padding: 1rem;
 }
+
 
 @media screen and (min-width: 100px)  and (max-width: 400px) {
 	.solution__div p {

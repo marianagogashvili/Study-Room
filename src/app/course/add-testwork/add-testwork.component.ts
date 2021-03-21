@@ -36,6 +36,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
   		'deadline': new FormControl('', Validators.required),
   		'hours': new FormControl(0, Validators.required),
   		'minutes': new FormControl(0, Validators.required),
+      'tries': new FormControl(1, Validators.required),
   		'testQuestions': new FormArray([])
   	});
 
@@ -59,6 +60,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 					this.editTestwork = testwork;
 		  			this.createForm.patchValue({
 		  				'title': this.editTestwork.title,
+              'tries': this.editTestwork.tries,
 		  				'deadline': this.editTestwork.deadline.slice(0, 16),
 		  				'hours': Math.floor(this.editTestwork.timeRestriction /  3600),
 		  				'minutes': Math.floor(this.editTestwork.timeRestriction % 3600 / 60),
@@ -125,6 +127,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
   	const testQuestions = this.createForm.value.testQuestions;
   	if (testQuestions !== []) {
   		const title = this.createForm.value.title;
+      const tries = this.createForm.value.tries;
 	  	const deadline = this.createForm.value.deadline;
 	  	const hidden = this.createForm.value.hidden;
 	  	const timeRestriction = this.createForm.value.hours * 3600 + this.createForm.value.minutes * 60;
@@ -134,6 +137,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 	  		this.testworkService.updateTestwork({
 		  		testId: this.editTestwork._id,
 		  		title: title, 
+          tries: tries,
 		  		deadline: deadline, 
 		  		hidden: hidden,
 		  		timeRestriction: timeRestriction,
@@ -144,6 +148,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 	  		this.testworkService.createTestwork({
 		  		courseId: this.courseId,
 		  		title: title, 
+          tries: tries,
 		  		deadline: deadline, 
 		  		hidden: hidden,
 		  		timeRestriction: timeRestriction,

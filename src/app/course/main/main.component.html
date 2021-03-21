@@ -97,6 +97,9 @@
 						<button 
 							type="button" 
 							class="add-test__btn" (click)="goToCreateTest(topic._id)">test</button>
+						<button 
+							type="button" 
+							class="add-test__btn" (click)="showArticle(topic._id)">article</button>
 					</div>
 					
 				</div>
@@ -112,8 +115,13 @@
 							</span>
 							<span 
 								class="word__icon" 
-								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 1] ===  'x'">
+								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 2] ===  'c'">
 								<fa-icon [icon]="wordIcon"></fa-icon>
+							</span>
+							<span
+								class="powerpoint__icon" 
+								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 2] ===  'p'">
+								<fa-icon [icon]="powerpointIcon"></fa-icon>
 							</span>
 						</span>
 
@@ -161,7 +169,7 @@
 								<fa-icon [icon]="testIcon"></fa-icon>
 							</span>
 
-							<span *ngIf="feedPost.questions" class="assignment__title" >{{ feedPost.title }} 
+							<span *ngIf="feedPost.questions" class="assignment__title">{{ feedPost.title }} 
 								<button 
 								type="button" 
 								*ngIf="userType === 'teacher'"

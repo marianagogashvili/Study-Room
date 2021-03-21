@@ -1,18 +1,10 @@
+<div *ngIf="!loading">
+
 <div class="solution__div">
 	<h2 >Solution</h2>
-	<p>
-		<span style="margin-right: 15px;">from</span>
-		<span [ngStyle]="!available && {'color': '#e37878'}">{{ availableFromDate | date: 'd, MMM yyyy HH:mm' }}</span>
-	</p>
-	<p *ngIf="assignment.deadline">
-		<span style="margin-right: 15px;">until</span>
-		<span [ngStyle]="!available && {'color': '#e37878'}">{{ deadlineDate | date: 'd, MMM yyyy HH:mm' }}</span></p>
-	<p *ngIf="!assignment.deadline">No deadline</p>
-	<!-- <div class="btns" *ngIf="userType === 'student' && this.available"> -->
-	<div class="btns" *ngIf="this.available">
+	<div class="btns" *ngIf="available">
 
 		<div *ngIf="!uploadMode && !editMode">
-			<button *ngIf="!solution" class="upload__btn" (click)="showUploadMode()">Upload</button>
 			<button *ngIf="solution && !solution.grade" class="edit__btn" (click)="showEditMode()">Edit</button>
 			<button *ngIf="solution && !solution.grade" class="delete__btn" (click)="delete()">Delete</button>		
 		</div>
@@ -27,11 +19,33 @@
 			<button class="back__btn" (click)="showEditMode()">Back</button>
 		</div>
 	</div>
+</div>
+<div class="upload__div" *ngIf="!uploadMode && !editMode">
+	<table>
+		<tr>
+			<td><span style="margin-right: 15px;">Available from</span></td>
+			<td><span [ngStyle]="!available && {'color': '#e37878'}">{{ availableFromDate | date: 'd, MMMM yyyy \' at \' HH:mm' }}</span></td>
+		</tr>
+		<tr *ngIf="assignment.deadline">
+			<td><span style="margin-right: 15px;">Deadline is</span></td>
+			<td><span [ngStyle]="!available && {'color': '#e37878'}">{{ deadlineDate | date: 'd, MMMM yyyy \' at \' HH:mm' }}</span></td>
+			<td *ngIf="!assignment.deadline">No deadline</td>
+		</tr>
+		<tr class="btns"  *ngIf="available">
+			<td></td>
+			<td *ngIf="!uploadMode && !editMode"><button *ngIf="!solution" class="upload__btn" (click)="showUploadMode()">Upload</button>	</td>
+		</tr>
+	</table>
+
+	<div >
+
+		
+	</div>
 
 </div>
-<div *ngIf="!solution && !uploadMode && !editMode" class="files__div" >
+<!-- <div *ngIf="!solution && !uploadMode && !editMode" class="files__div" >
 	You haven't uploaded solution yet
-</div>
+</div> -->
 
 <div *ngIf="!uploadMode && !editMode && solution" class="files__div" >
 	<div class="filelist__div"  *ngFor="let file of solution.fileUrl">
@@ -105,7 +119,6 @@
 			<td>{{ solution.comment }}</td>
 		</tr>
 	</table>
-<!-- 	<h2>Grade: {{ solution.grade }}</h2>
-	<h2>Max: {{ assignment.maxGrade }}</h2>
-	<p>Comment: {{ solution.comment }}</p> -->
+</div>
+	
 </div>

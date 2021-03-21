@@ -15,11 +15,13 @@ import { pipe, Subscription } from 'rxjs';
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { faFile } from '@fortawesome/free-regular-svg-icons';
+import { faFileAlt } from '@fortawesome/free-regular-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileWord } from '@fortawesome/free-regular-svg-icons';
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
+import { faFilePowerpoint } from '@fortawesome/free-regular-svg-icons';
+
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faVial } from '@fortawesome/free-solid-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -42,8 +44,9 @@ export class MainComponent implements OnInit, OnDestroy {
   editIcon = faEdit;
 
   pdfIcon = faFilePdf;
+  powerpointIcon = faFilePowerpoint;
   wordIcon = faFileWord;
-  fileIcon = faFile;
+  fileIcon = faFileAlt;
   testIcon = faVial;
   linkIcon = faExternalLinkAlt;
   minusIcon = faMinusCircle;
@@ -258,7 +261,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   goToEditTest(topicId, testworkId) {
-  	// this.testworkService.sendEditTest(testwork);
   	if (this.userType === 'teacher') {
   		this.router.navigate(['../add-testwork'], {relativeTo: this.route, queryParams: {topicId: topicId, testworkId: testworkId } });
   	}
@@ -272,6 +274,11 @@ export class MainComponent implements OnInit, OnDestroy {
   showPost(topic) {
   	this.courseService.showPost(topic);
   	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
+  }
+
+  showArticle(topic) {
+    this.courseService.showArticle(topic);
+    document.getElementById('header').scrollIntoView({ behavior: 'smooth' });    
   }
 
   showEditTopic(topic, i) {

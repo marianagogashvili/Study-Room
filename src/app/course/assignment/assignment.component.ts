@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs/';
 import { faFileWord } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faFilePowerpoint } from '@fortawesome/free-solid-svg-icons';
+
 import { CoursesService } from '../courses.service';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -24,6 +26,7 @@ export class AssignmentComponent implements OnInit, OnDestroy {
   pdfIcon = faFilePdf;
   wordIcon = faFileWord;
   minusIcon = faMinusCircle;
+  powerpointIcon = faFilePowerpoint;
   editMode = false;
 
   editForm: FormGroup;

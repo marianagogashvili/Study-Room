@@ -1,3 +1,143 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<app-header></app-header>
+<body>
+	<div class="container0" [@loginState]="loginState">
+		<div>
+			<h1 class="questionTitle">Don't have an account yet?</h1>
+			<button (click)="onSwitchToSignup(loginForm)" class="signinBtn">Sign up</button>
+		</div>	
+	</div>
+	<form [@loginState]="loginState"  class="container" #loginForm="ngForm" (ngSubmit)="onSubmitLogin(loginForm)" action="">
+		<div [@errorState]="errorState" class="errorsDiv">
+			<h3 class="errorTitle">Error</h3>
+			<div *ngFor="let error of errors" class="errorDiv">{{ error.msg }}</div>
+		</div>
+		<h1 class="title" name="title">Log in</h1>
+		<input 
+			class="loginInput" 
+			type="text" 
+			name="login" 
+			login
+			placeholder="Login"
+			ngModel
+			required
+			#login2 = "ngModel"
+			>
+		<span *ngIf="!login2.valid && login2.touched">
+			Login is wrong
+		</span>
+		<input 
+			class="passwordInput" 
+			type="password" 
+			name="password" 
+			placeholder="Password"
+			ngModel
+			password
+			minlength="3" 
+			required
+			#password2 = "ngModel"
+			>
+		<span *ngIf="!password2.valid && password2.touched">
+			Password is wrong
+		</span>
+		<button type="submit" class="signupBtn" [disabled]="!loginForm.valid">Log in</button>
+	</form>
+
+
+	<div class="container0" [@loginState]="signupState">
+		<div>
+			<h1 class="questionTitle">Already have an account ?</h1>
+			<button (click)="onSwitchToLogin(registerForm)" class="signinBtn">Sign in</button>
+		</div>	
+	</div>
+
+
+
+	<form [@loginState]="signupState"  class="container" #registerForm="ngForm" (ngSubmit)="onSubmitRegister(registerForm)" action="">
+		<h1 class="title" name="title">Create Account</h1>
+		<div [@errorState]="errorState" class="errorsDiv">
+			<h3 class="errorTitle">Error</h3>
+			<div *ngFor="let error of errors" class="errorDiv">{{ error.msg }}</div>
+		</div>
+		<input 
+			class="nameInput" 
+			type="text" 
+			name="fullName" 
+			placeholder="Full Name"
+			ngModel
+			fullName
+			minlength="3"
+			required 
+			#fullName = "ngModel" 
+			>
+		<span *ngIf="!fullName.valid && fullName.touched">
+			Name has to be at least 3 characters long
+		</span>
+		<input 
+			class="loginInput" 
+			type="text" 
+			name="login" 
+			login
+			placeholder="Login"
+			ngModel
+			required
+			#login = "ngModel"
+			>
+		<span *ngIf="!login.valid && login.touched">
+			Login is invalid
+		</span>
+		<input 
+			class="passwordInput" 
+			type="password" 
+			name="password" 
+			placeholder="Password"
+			ngModel
+			password
+			minlength="3" 
+			required
+			#password = "ngModel"
+			>
+		<span *ngIf="!password.valid && password.touched">
+			Password has to be at least 3 characters long
+		</span>
+
+		<div>
+			<h1 class="teacherOrStudent" [ngStyle]="(userType==='teacher') && {'color': '#00b5d4'} " (click)="userType='teacher'">Teacher</h1>
+			<h1 class="teacherOrStudent" [ngStyle]="(userType==='student') && {'color': '#00b5d4'} " (click)="userType='student'">Student</h1>
+			
+		</div>
+
+		<div  *ngIf="userType==='student'">
+			<input 
+			type="text" 
+			list="className" 
+			name="className"
+			placeholder="select your class"
+			ngModel
+			className
+			required
+			#className="ngModel"
+			/>
+			
+			<span class="classErrSpan" *ngIf="className.touched && !className.valid">
+				Please select class
+			</span>
+
+			<datalist id="className">
+			  <option *ngFor="let group of groups" >{{ group.name }}</option>
+			</datalist> 
+		</div> 
+		 
+		<button type="submit" class="signupBtn" [disabled]="!registerForm.valid || !userType">Sign up</button>
+	</form> 
+	
+</body> 
+</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

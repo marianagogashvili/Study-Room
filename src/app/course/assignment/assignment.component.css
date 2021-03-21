@@ -188,16 +188,24 @@ textarea {
 	background-color: #c6dea6;
 }
 
-.pdf__icon, .word__icon { 
+.pdf__icon, .word__icon, .minus__icon, .powerpoint__icon { 
 	font-size: 25px;
 }
 
-.pdf__icon {
+.minus__icon {
 	color: #e37878;
 }
 
+.powerpoint__icon {
+	color: #d14523;
+}
+
+.pdf__icon {
+	color: #B30C02;
+}
+
 .word__icon {
-	color: #78a1e3;
+	color: #4d799c;
 }
 
 .file__div {

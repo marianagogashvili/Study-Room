@@ -218,7 +218,7 @@ input.ng-touched.ng-invalid {
 	color: #5c5c5c;
 }
 
-.pdf__icon, .word__icon, .link__icon, .file__icon, .test__icon { 
+.pdf__icon, .word__icon, .link__icon, .file__icon, .test__icon, .powerpoint__icon { 
 	font-size: 25px;
 }
 
@@ -233,11 +233,13 @@ input.ng-touched.ng-invalid {
 }
 
 .file__icon {
-	color: #FFC82A;
+	color: #4e4e4e;
 }
 
+
+
 .test__icon {
-	color: #7bf542;
+	color: #9BDE00;
 }
 
 .link__icon__title {
@@ -245,12 +247,16 @@ input.ng-touched.ng-invalid {
 
 }
 
+.powerpoint__icon {
+	color: #d14523;
+}
+
 .pdf__icon {
-	color: #e37878;
+	color: #B30C02;
 }
 
 .word__icon {
-	color: #78a1e3;
+	color: #4d799c;
 }
 
 .link__icon {

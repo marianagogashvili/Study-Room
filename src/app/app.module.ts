@@ -41,6 +41,7 @@ import { TestAnswersComponent } from './course/test-answers/test-answers.compone
 import { GradeAnswersComponent } from './course/test-answers/grade-answers/grade-answers.component';
 import { SearchComponent } from './search/search.component';
 import { StudentRequestsComponent } from './course/student-requests/student-requests.component';
+import { AddArticleComponent } from './course/add-article/add-article.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { StudentRequestsComponent } from './course/student-requests/student-requ
     TestAnswersComponent,
     GradeAnswersComponent,
     SearchComponent,
-    StudentRequestsComponent
+    StudentRequestsComponent,
+    AddArticleComponent
   ],
   imports: [
     BrowserModule,

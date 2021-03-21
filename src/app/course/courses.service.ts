@@ -12,6 +12,7 @@ export class CoursesService {
 	}
 	assignmentMode = new EventEmitter();
 	postMode = new EventEmitter();
+	articleMode = new EventEmitter();
 
 	feedValue = new Subject<any>(); 
 
@@ -221,6 +222,10 @@ export class CoursesService {
 
 	showPost(val) {
 		this.postMode.emit(val);
+	}
+
+	showArticle(val) {
+		this.articleMode.emit(val);
 	}
 
 	sendNewFeedPost(val) {

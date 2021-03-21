@@ -2,6 +2,7 @@
 	<h1>{{ testwork.title }}</h1>
 	<p>This test lasts {{ timeRestriction }}</p>
 	<p>Deadline: {{ testwork.deadline.slice(0, 16) | date: 'dd MMMM yyyy  \'at\' hh:mm' }}</p>
+	<p>Max number of tries: {{ testwork.tries }}</p>
 	<button [disabled]="!available" class="start__btn" (click)="startTheTest()">Start</button>
 </div>
 <div  *ngIf="!loading && studentAnswer.length !== 0 " class="answers__div">
@@ -48,7 +49,6 @@
 </div>
 
 <div *ngIf="!loading && workMode && available" class="main__div">
-
 	<div class="question__div" >
 		<h3 class="question__h3"><span class="points__span">points: {{ testwork.questions[currentQuestionId].points }}</span>{{ testwork.questions[currentQuestionId].title }}</h3>
 		<div *ngIf="testwork.questions[currentQuestionId].a">

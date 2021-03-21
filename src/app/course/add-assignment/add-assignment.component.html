@@ -70,8 +70,8 @@
 			name="fileName"
 			class="file__input" 
 			(change)="saveFile($event)"
-			accept=".pdf, .docx" 
-			>
+			accept=".pdf, .docx, .ppt, .pptx, .pps" 
+			onclick="this.value=null">
 
 	</div>
 	<div class="file__names" *ngIf="files">

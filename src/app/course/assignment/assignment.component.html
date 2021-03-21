@@ -61,7 +61,7 @@
 						>
 				</div>
 				<div class="filelist__div" *ngFor="let file of filesList; index as i">
-					<span (click)="removeFileFromList(file, i)" class="pdf__icon" ><fa-icon [icon]="minusIcon"></fa-icon></span>
+					<span (click)="removeFileFromList(file, i)" class="minus__icon" ><fa-icon [icon]="minusIcon"></fa-icon></span>
 					<span class="filelist__span">{{ file.split('-')[3] }}</span>
 				</div>
 				
@@ -74,9 +74,10 @@
 					class="file__input" 
 					id="fileName" 
 					type="file"
-					accept=".pdf, .docx">
+					onclick="this.value = null"
+					accept=".pdf, .docx, .ppt, .pptx, .pps">
 				<div class="filelist__div" *ngFor="let file of addFilesList; index as i">
-					<span (click)="removeFileFromAddList(file, i)" class="pdf__icon" ><fa-icon [icon]="minusIcon"></fa-icon></span>
+					<span (click)="removeFileFromAddList(file, i)" class="minus__icon" ><fa-icon [icon]="minusIcon"></fa-icon></span>
 					<span class="filelist__span">{{ file.name }}</span>
 				</div>
 			</div>
@@ -96,8 +97,13 @@
 			</span>
 			<span 
 				class="word__icon" 
-				*ngIf="file[file.length - 1] ===  'x'">
+				*ngIf="file[file.length - 2] ===  'c'">
 				<fa-icon [icon]="wordIcon"></fa-icon>
+			</span>
+			<span
+				class="powerpoint__icon" 
+				*ngIf="file[file.length - 2] ===  'p'">
+				<fa-icon [icon]="powerpointIcon"></fa-icon>
 			</span>
 			<a 
 				class="file__url" 
