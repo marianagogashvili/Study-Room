@@ -1,11 +1,33 @@
 
-<div class="editDiv"> 
+<div class="editDiv" > 
+
+<!-- [@errorState]="deleteCourseState"  -->
+<div style="z-index: 7" [@popupState]="popupState" class="delete__div">
+	<div class="delete__alert-box">
+		<h1>Are you sure you want to exit ? This Post will not be saved.</h1>
+		<div class="delete__btns">
+			<button (click)="exit()" class="yes__btn">Yes</button>
+			<button (click)="closePopup()">No</button>
+		</div>
+	</div>
+</div>
+
+<div  (click)="showExitPopup()" class="backdrop" style="z-index: 5"></div>
+
+
+<form style="z-index: 6" class="container" [formGroup]="articleForm">
+	<div >
+		<label for="title">Title</label>
+		<input 
+			id="title" 
+			required
+			type="text" 
+			placeholder="article title"
+			formControlName="title">
+	</div>
 	
-<div class="container" >
-	<label for="title">Title</label>
-	<input id="title" type="text" placeholder="article title">
 	
-	<div style="display: flex; flex-direction: column; height: 80%; width: 80%;">
+	<div class="article__div">
 		<div class="buttons">
 			<button (click)="change('bold')"><fa-icon [icon]="boldIcon"></fa-icon></button>
 			<button (click)="change('italic')"><fa-icon [icon]="italicIcon"></fa-icon></button>
@@ -39,12 +61,18 @@
 			class="article" 
 			(input)="article = $event.target.innerHTML"
 			name="article" 
-			contenteditable="true">
+			contenteditable="true"
+		>
 		    
 		</div>
 	</div>
 
-	<button>Save</button>
-</div>
+	<button 
+		[disabled]="!articleForm.valid"
+		class="save__btn" 
+		type="submit" 
+		(click)="createArticle()">Save</button>
+
+</form>
 
 </div>

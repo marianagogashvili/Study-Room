@@ -7,7 +7,6 @@ import { AuthGuard } from './auth-guard.service';
 import { AuthGuardTeacher } from './auth-guard-teacher.service';
 import { AuthGuardStudent } from './auth-guard-student.service';
 
-
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { EditComponent } from './student/edit/edit.component';

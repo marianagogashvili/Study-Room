@@ -5,6 +5,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 
 import { CoursesService } from './courses.service';
 import { HomeService } from '../home.service';
+import { ArticleService } from './article.service';
 
 import { Subscription } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
@@ -56,7 +57,8 @@ export class CourseComponent implements OnInit,  OnDestroy {
   constructor(private route: ActivatedRoute,
   			  private router: Router,
   			  private courseService: CoursesService,
-          private homeService: HomeService) { 
+          private homeService: HomeService,
+          private articleService: ArticleService) { 
     // this.sub = this.courseService.userType.subscribe(type => {
     //   this.userType = type.type;
     // });
@@ -83,6 +85,10 @@ export class CourseComponent implements OnInit,  OnDestroy {
       this.articleTopicId = topicId;
       this.addArticle = !this.addArticle;
     });
+
+    this.articleService.closeArticle.subscribe(result => {
+      this.addArticle = false;
+    })
 
   	this.editForm = new FormGroup({
   		'title': new FormControl('', [Validators.required]),

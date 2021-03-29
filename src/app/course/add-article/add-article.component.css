@@ -2,6 +2,63 @@
 	box-sizing: border-box;
 }
 
+
+.delete__div {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	top: 20%;
+
+}
+
+.delete__alert-box {
+	/*position: absolute;*/
+	width: 400px;
+	height: 220px;
+	z-index: 6;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 0 20px;
+	justify-content: space-around;
+	align-content: center;
+	border-radius: 5px;
+	box-shadow: 0 0 100px grey;
+}
+
+.delete__alert-box h1 {
+	font-size: 25px;
+}
+
+.delete__btns {
+	/*display: inline;*/
+	/*width: 100%;*/
+	text-align: center;
+}
+
+.delete__btns button {
+	width: 7rem;
+	height: 3rem;
+	font-size: 20px;
+	text-transform: uppercase;
+	font-family: 'Montserrat', sans-serif;
+	border: 0;
+	outline: none;
+}
+
+.yes__btn {
+	margin-right: 20px;
+	background-color: #f76d61;
+	color: white;
+}
+
+
+input.ng-invalid.ng-touched {
+	border: 2px solid #bf6767;
+}
+
 textarea {
 	width: 90%;
 	height: 70%;
@@ -10,6 +67,39 @@ textarea {
 
 fa-icon {
 	font-size: 18px;
+}
+
+input {
+	height: 35px;
+    width: 250px;
+    padding: 5px;
+    border: 2px solid #F2F2F2;
+    margin-left: 15px;
+    outline: none;
+    font-family: 'Montserrat';
+}
+
+.article__div {
+	display: flex; 
+	flex-direction: column; 
+	height: 80%; 
+	width: 80%;
+}
+
+.save__btn {
+	background: white;
+    border: 2px solid #8796B3;
+    width: 100px;
+    height: 30px;
+    text-transform: uppercase;
+    color: #8796B3;
+    border-radius: 5px;
+    font-weight: bold;
+    outline: none;
+}
+
+input:focus {
+	border: 2px solid #bababa;
 }
 
 .buttons {
@@ -44,6 +134,11 @@ fa-icon {
 	padding: 10px;
 	/*white-space: pre;*/
 	overflow-y: scroll;
+	outline: none;
+}
+
+.article:focus {
+	border: 2px solid #bababa;
 }
 
 .editDiv {
@@ -55,6 +150,16 @@ fa-icon {
 	justify-content: center; 
 	align-items: center; 
 	justify-items: center;
+    
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .container {
@@ -79,4 +184,5 @@ fa-icon {
 	height: 630px;
 
 	z-index: 100;
+	padding: 20px;
 }
