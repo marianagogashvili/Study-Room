@@ -72,7 +72,10 @@
 		[disabled]="!articleForm.valid"
 		class="save__btn" 
 		type="submit" 
-		(click)="createArticle()">Save</button>
+		(click)="createArticle()">
+		<span *ngIf="!this.articleValue">Create</span>
+		<span *ngIf="this.articleValue">Update</span>
+	</button>
 
 </form>
 

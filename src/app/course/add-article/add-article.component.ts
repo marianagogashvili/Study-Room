@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ArticleService } from '../article.service';
+import { CoursesService } from '../courses.service';
+
 import { trigger, transition, state, animate, style } from '@angular/animations';
 
 import { faBold } from '@fortawesome/free-solid-svg-icons';
@@ -49,9 +51,9 @@ export class AddArticleComponent implements OnInit {
   sizeIcon = faFont; redoIcon = faRedoAlt;
 
   article="";
-  defaultFontSize = 3;
 
-  constructor(private articleService: ArticleService) { }
+  constructor(private articleService: ArticleService,
+  		      private courseService: CoursesService) { }
   
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
   	if (this.article !== '') {
@@ -73,10 +75,9 @@ export class AddArticleComponent implements OnInit {
   		'title': new FormControl('', Validators.required)
   	});
 
-  	console.log(this.articleValue.title);
+
   	if (this.articleValue !== null) {
   		this.articleForm.patchValue({'title': this.articleValue.title})
-  		// this.article = this.articleValue.title;
   		document.getElementById('article').innerHTML = this.articleValue.text;
 
   	}
@@ -84,11 +85,11 @@ export class AddArticleComponent implements OnInit {
   }
 
   createArticle() {
-  	console.log(this.articleForm.value.title);
-  	console.log(this.article);
-  	console.log(this.courseId);
-  	console.log(this.topicId);
-  	if (this.article === '') {
+  	// console.log(this.articleForm.value.title);
+  	// console.log(this.article);
+  	// console.log(this.courseId);
+  	// console.log(this.topicId);
+  	if (this.article === '' && this.articleValue === null) {
   		const div = document.getElementById('article');
   		div.style.border = '2px solid #bf6767';
   		setTimeout(() => {
@@ -96,28 +97,53 @@ export class AddArticleComponent implements OnInit {
   		}, 2000);
   		
   	} else {
-  		this.articleService.createArticle({
-			title: this.articleForm.value.title, 
-			text: this.article,
-			topicId: this.topicId,
-			courseId: this.courseId}).subscribe(result => {
-
-				this.articleService.closePopup();
-  		});
+  		if (!this.articleValue) {
+  			this.articleService.createArticle({
+				title: this.articleForm.value.title, 
+				text: this.article,
+				topicId: this.topicId,
+				courseId: this.courseId}).subscribe(result => {
+					this.articleService.closePopup();
+					this.courseService.sendNewFeedPost(result);
+	  		});
+  		} else {
+  			this.articleService.updateArticle({
+  				id: this.articleValue._id,
+				title: this.articleForm.value.title, 
+				text: this.article || this.articleValue.text}).subscribe(result => {
+					this.articleService.closePopup();
+					this.courseService.sendNewFeedPost(result);
+	  		});
+  		}
+  		
   	}
 
   	
   }
 
   showExitPopup() {
-  	// if (!this.articleValue || this.article = ) {
+  	// console.log(this.article);
+  	// console.log(this.articleValue.text);
 
-  	// }
-  	if (this.article !== '' || this.articleForm.value.title !== '') {
-  		this.popupState = 'shown';
-  	} else {
-  		this.articleService.closePopup();
+  	// console.log(this.articleValue.text === this.article);
+  	// console.log(this.articleForm.value.title === this.articleValue.title);
+  	
+  	if (!this.articleValue) {
+  		if (this.article !== '' || this.articleForm.value.title !== '') {
+	  		this.popupState = 'shown';
+	  	} else {
+	  		this.articleService.closePopup();
+	  	}
+  	} else if (this.articleValue !== null) {
+  		if (this.article === '' || 
+  		   (this.articleValue.text === this.article && 
+  			this.articleForm.value.title === this.articleValue.title)) {
+  			this.articleService.closePopup();
+  		} else {
+  			this.popupState = 'shown';
+  		}
   	}
+  	
   }
 
   closePopup() {
@@ -144,11 +170,30 @@ export class AddArticleComponent implements OnInit {
 
 
   resize(val) {
-  	if (this.defaultFontSize + val <= 7 && this.defaultFontSize + val >=1) {
-  		this.defaultFontSize = this.defaultFontSize + val;
-  	}
-  	console.log(this.defaultFontSize);
-  	document.execCommand('fontSize', false, this.defaultFontSize.toString());
+  	const selection = window.getSelection();
+  	let size;
+	if (selection) { 
+	  size = window.getComputedStyle(selection.anchorNode.parentElement, null).getPropertyValue('font-size');
+	  if (size === '10px') {
+	  	size = 1;
+	  } else if (size === '13px') {
+	  	size = 2;
+	  } else if (size === '16px') {
+	  	size = 3;
+	  } else if (size === '18px') {
+	  	size = 4;
+	  } else if (size === '24px') {
+	  	size = 5;
+	  } else if (size === '32px') {
+	  	size = 6;
+	  } else if (size === '48px') {
+	  	size = 7;
+	  }
+
+	}
+
+  	document.execCommand('fontSize', false, (size+val).toString());
+
   }
 
 }

@@ -21,6 +21,28 @@ export class ArticleService {
 			})
 	}
 
+	updateArticle(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/article/updateArticle', 
+			JSON.stringify(param), {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			})
+	}
+
+	deleteArticle(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/article/deleteArticle', 
+			JSON.stringify(param), {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			})
+	}
+
 	getArticle(param: Params) {
 		return this.http.post(
 			'http://localhost:8000/article/getArticle', 

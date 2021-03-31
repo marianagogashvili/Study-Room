@@ -5,9 +5,12 @@ import { DatePipe } from '@angular/common';
 
 import { TopicService } from '../topic.service';
 import { CoursesService } from '../courses.service';
+import { ArticleService } from '../article.service';
 import { AssignmentService } from '../assignment.service';
 import { PostsService } from '../posts.service';
 import { TestService } from '../test.service';
+
+import { trigger, transition, state, animate, style } from '@angular/animations';
 
 import { map, mergeMap } from 'rxjs/operators';
 import { pipe, Subscription } from 'rxjs';
@@ -29,7 +32,32 @@ import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  animations: [
+    trigger('deletePopup', [
+      state('shown', style({
+        transform: 'translateX(0px)',
+        opacity: '1',
+        visibility: 'visible'
+      })),
+      state('hidden', style({
+        transform: 'translateX(40px)',
+        opacity: '0',
+        visibility: 'hidden'
+      })),
+      transition('shown <=> hidden', animate(300)),
+    ]),
+    trigger('deletePopupHidden', [
+      state('shown', style({
+        display: 'flex'
+      })),
+      state('hidden', style({
+        display: 'none'
+      })),
+      transition('shown => hidden', animate('200ms ease')),
+      transition('hidden => shown', animate('0ms ease')) // ease
+    ])
+  ]
 })
 export class MainComponent implements OnInit, OnDestroy {
   topicForm: FormGroup;
@@ -53,6 +81,8 @@ export class MainComponent implements OnInit, OnDestroy {
   minusIcon = faMinusCircle;
   arrowDownIcon = faArrowDown;
 
+  deletePopup = 'hidden';
+  deletePopupIndex = null;
 
   userType = null;
   allowedUser;
@@ -73,6 +103,7 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private topicService: TopicService,
   			  private courseService: CoursesService,
   			  private postService: PostsService,
+          private articleService: ArticleService,
   			  private route: ActivatedRoute,
   			  private router: Router,
   			  private assignmentService: AssignmentService,
@@ -243,6 +274,15 @@ export class MainComponent implements OnInit, OnDestroy {
   	});
   }
 
+  deleteArticle(index, articleIndex, articleId) {
+    
+    this.articleService.deleteArticle({id: articleId}).subscribe(result =>{ 
+      this.deletePopup = 'hidden';
+      this.deletePopupIndex = null;
+      this.topics[index].feed.splice(articleIndex, 1);
+    });
+  }
+
   openLink(url, file) {
   	let fileUrl = url;
   	if (file) {
@@ -265,6 +305,10 @@ export class MainComponent implements OnInit, OnDestroy {
   	if (this.userType === 'teacher') {
   		this.router.navigate(['../add-testwork'], {relativeTo: this.route, queryParams: {topicId: topicId, testworkId: testworkId } });
   	}
+  }
+
+  goToTopic(id) {
+    this.scrollEl = "topic" + id;
   }
 
   goToEditArticle(feedPost, topicId) {

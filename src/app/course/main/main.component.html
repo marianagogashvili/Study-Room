@@ -8,6 +8,7 @@
 
 </head>
 <body id="main">
+	<div class="mainBody">
 	<form *ngIf="newTopicMode && userType === 'teacher'" [formGroup]="topicForm" (ngSubmit)="createTopic()">
 		<input 
 			class="title__input" 
@@ -109,8 +110,9 @@
 			</div>
 			<div *ngIf="userType === 'teacher' || (userType === 'student' && topic.hidden === false)">
 				<div class="assignments__div" *ngIf="topic.feed && topic.feed.length > 0; else elseBlock">
-					<div class="assignment__div" *ngFor="let feedPost of topic.feed; index as postIndex" >
-						<span *ngIf="feedPost.fileUrl && !feedPost.maxGrade" class="pdf__icon">
+					<div class="assignment__div" *ngFor="let feedPost of topic.feed; index as postIndex" style="display: flex; align-items: center;">
+
+						<span *ngIf="feedPost.fileUrl && !feedPost.maxGrade" class="pdf__icon" >
 							<span 
 								class="pdf__icon" 
 								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 1] === 'f'">
@@ -128,49 +130,87 @@
 							</span>
 						</span>
 
-						<span *ngIf="feedPost.fileUrl && !feedPost.maxGrade">
-							<span class="assignment__title" (click)="openLink(feedPost.fileUrl, true)">
+						<span *ngIf="feedPost.fileUrl && !feedPost.maxGrade" style="display: flex; align-items: center;">
+							<span class="assignment__title" (click)="openLink(feedPost.fileUrl, true)" >
 								{{ feedPost.title }}
 							</span>
+
 							<fa-icon 
 								*ngIf="userType === 'teacher'"
-								(click)="deletePost(i, postIndex, feedPost._id)" class="minus__icon" [icon]="minusIcon">
+								(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
+								class="minus__icon" 
+								[icon]="minusIcon">
 							</fa-icon>
+
+							<span 
+								class="popupSpan" 
+								*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
+								[@deletePopup]="deletePopup">
+								Are you sure ? 
+								<button class="popupYesBtn" (click)="deletePost(i, postIndex, feedPost._id)">yes</button>
+								<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+							</span>
 						</span>
 
-						<span *ngIf="feedPost.link" class="link__icon" >
-							<fa-icon [icon]="linkIcon"></fa-icon>
-						</span>
+						
 
-						<span *ngIf="feedPost.link" >
+						<span *ngIf="feedPost.link" style="display: flex; align-items: center;">
+							<span  class="link__icon" >
+								<fa-icon [icon]="linkIcon"></fa-icon>
+							</span>
+
 							<span class="assignment__title link__icon__title" 
 							(click)="openLink(feedPost.link, false)">
 								{{ feedPost.title }}</span>
 							<fa-icon 
 								*ngIf="userType === 'teacher'" 
-								(click)="deletePost(i, postIndex, feedPost._id)" class="minus__icon" 
+								class="minus__icon" 
+								(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
 								[icon]="minusIcon">
 							</fa-icon>
+
+							<span 
+								class="popupSpan" 
+								*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
+								[@deletePopup]="deletePopup">
+								Are you sure ? 
+								<button class="popupYesBtn" (click)="deletePost(i, postIndex, feedPost._id)" >yes</button>
+								<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+							</span>
+
 						</span>
-						
+
 <!-- /////////////// -->
-						<span *ngIf="feedPost.text" >
+						<span *ngIf="feedPost.text" style="display: flex; align-items: center;">
 							<fa-icon 
 								[icon]="articleIcon"
 								class="article__icon"></fa-icon>
 							<span class="assignment__title link__icon__title" 
 							[routerLink]="['../article', feedPost._id]" >
 								{{ feedPost.title }}</span>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								(click)="deletePost(i, postIndex, feedPost._id)" class="minus__icon" 
-								[icon]="minusIcon">
-							</fa-icon>
 
+							
 							<button 
 								type="button" 
 								*ngIf="userType === 'teacher'"
 								class="edit-test__btn" (click)="goToEditArticle(feedPost, topic._id, feedPost._id)">edit</button>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
+								class="minus__icon" 
+								[icon]="minusIcon">
+							</fa-icon>
+
+							<span 
+								class="popupSpan" 
+								*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
+								[@deletePopup]="deletePopup">
+								Are you sure ? 
+								<button class="popupYesBtn" (click)="deleteArticle(i, postIndex, feedPost._id)">yes</button>
+								<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+							</span>
+
+							
 						</span>
 <!-- /////////////// -->
 						<div *ngIf="userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)" [ngStyle]="feedPost.parent && {'margin-left': feedPost.marginLeft+'px'}">
@@ -216,6 +256,15 @@
 			<fa-icon (click)="goUp()" [icon]="upIcon"></fa-icon></button> 
 		<button class="scroll__btn">
 			<fa-icon (click)="goDown()" [icon]="downIcon"></fa-icon></button>
+	</div>
+
+	</div>
+
+	<div class="sideNav">
+		Topics
+		<div *ngFor="let topic of topics; index as id" (click)="goToTopic(id)">
+			{{ topic.title }}
+		</div>
 	</div>
 </body>
 
