@@ -85,10 +85,7 @@ export class AddArticleComponent implements OnInit {
   }
 
   createArticle() {
-  	// console.log(this.articleForm.value.title);
-  	// console.log(this.article);
-  	// console.log(this.courseId);
-  	// console.log(this.topicId);
+
   	if (this.article === '' && this.articleValue === null) {
   		const div = document.getElementById('article');
   		div.style.border = '2px solid #bf6767';

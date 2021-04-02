@@ -39,10 +39,9 @@ export class CourseComponent implements OnInit,  OnDestroy {
   editForm: FormGroup;
 
   addAssignment = false; addPost = false; addArticle = false;
-  
+  topicId;
+  articleValue;
 
-  assignmentTopicIdAndParent; postTopicId; 
-  articleTopicId; articleValue;
   userType;
 
   errors;
@@ -72,19 +71,18 @@ export class CourseComponent implements OnInit,  OnDestroy {
       console.log(this.fields);
     });
 
-  	this.courseService.assignmentMode.subscribe(topicIdAndParent => {
-  		this.assignmentTopicIdAndParent = topicIdAndParent;
+  	this.courseService.assignmentMode.subscribe(topicId => {
+      this.topicId = topicId;
   		this.addAssignment = !this.addAssignment;
   	});
 
     this.courseService.postMode.subscribe((topicId) => {
-      this.postTopicId = topicId;
+      this.topicId = topicId;
       this.addPost = !this.addPost;
     });
 
     this.courseService.articleMode.subscribe((article) => {
-      console.log(article);
-      this.articleTopicId = article.topicId;
+      this.topicId = article.topicId;
       this.articleValue = article.value;
 
       this.addArticle = !this.addArticle;

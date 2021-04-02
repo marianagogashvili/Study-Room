@@ -18,6 +18,18 @@ export class PostsService {
 			});
 	}
 
+
+	addMargin(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/post/addMargin', 
+			JSON.stringify(param), {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			});
+	}
+
 	getPostsByCourse(param: Params) {
 		return this.http.post(
 			'http://localhost:8000/post/getPostsByCourse', 

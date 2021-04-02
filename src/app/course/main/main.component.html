@@ -154,7 +154,10 @@
 
 						
 
-						<span *ngIf="feedPost.link" style="display: flex; align-items: center;">
+						<span 
+							*ngIf="feedPost.link" 
+							style="display: flex; align-items: center;"
+							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
 							<span  class="link__icon" >
 								<fa-icon [icon]="linkIcon"></fa-icon>
 							</span>
@@ -162,6 +165,17 @@
 							<span class="assignment__title link__icon__title" 
 							(click)="openLink(feedPost.link, false)">
 								{{ feedPost.title }}</span>
+
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowLeftIcon" 
+								(click)="move(feedPost._id, i, postIndex, -1, 'post')"></fa-icon>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowRightIcon" 
+								(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
+
+
 							<fa-icon 
 								*ngIf="userType === 'teacher'" 
 								class="minus__icon" 
@@ -181,7 +195,8 @@
 						</span>
 
 <!-- /////////////// -->
-						<span *ngIf="feedPost.text" style="display: flex; align-items: center;">
+						<span *ngIf="feedPost.text" 
+							style="display: flex; align-items: center;">
 							<fa-icon 
 								[icon]="articleIcon"
 								class="article__icon"></fa-icon>
@@ -189,7 +204,6 @@
 							[routerLink]="['../article', feedPost._id]" >
 								{{ feedPost.title }}</span>
 
-							
 							<button 
 								type="button" 
 								*ngIf="userType === 'teacher'"
@@ -213,26 +227,35 @@
 							
 						</span>
 <!-- /////////////// -->
-						<div *ngIf="userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)" [ngStyle]="feedPost.parent && {'margin-left': feedPost.marginLeft+'px'}">
-							<span *ngIf="feedPost.maxGrade" class="file__icon">
+						<div 
+							*ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.maxGrade" 
+							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
+							<span class="file__icon">
 								<fa-icon [icon]="fileIcon"></fa-icon>
 							</span>
 
-							<span *ngIf="feedPost.maxGrade" class="assignment__title" [routerLink]="['../assignment/', feedPost._id]"  
+							<span class="assignment__title" [routerLink]="['../assignment/', feedPost._id]"  
 							[ngClass]="{'hidden__span': feedPost.hidden}">
 								{{ feedPost.title }}
 							</span>
-							<fa-icon *ngIf="userType === 'teacher' && feedPost.maxGrade" [icon]="arrowDownIcon" (click)="showAssignment(topic._id, feedPost._id)"></fa-icon>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowLeftIcon" 
+								(click)="move(feedPost._id, i, postIndex, -1, 'assignment')"></fa-icon>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowRightIcon" 
+								(click)="move(feedPost._id, i, postIndex, 1, 'assignment')"></fa-icon>
 						</div>
 
 						
 
-						<div *ngIf="userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)" (click)="goToTest(topic._id, feedPost._id)">
-							<span *ngIf="feedPost.questions" class="test__icon">
+						<div *ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.questions" (click)="goToTest(topic._id, feedPost._id)">
+							<span class="test__icon">
 								<fa-icon [icon]="testIcon"></fa-icon>
 							</span>
 
-							<span *ngIf="feedPost.questions" class="assignment__title">{{ feedPost.title }} 
+							<span class="assignment__title">{{ feedPost.title }} 
 								<button 
 								type="button" 
 								*ngIf="userType === 'teacher'"

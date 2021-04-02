@@ -27,7 +27,8 @@ import { faFilePowerpoint } from '@fortawesome/free-regular-svg-icons';
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faVial } from '@fortawesome/free-solid-svg-icons';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -79,7 +80,8 @@ export class MainComponent implements OnInit, OnDestroy {
   articleIcon = faAlignJustify;
   linkIcon = faExternalLinkAlt;
   minusIcon = faMinusCircle;
-  arrowDownIcon = faArrowDown;
+  arrowRightIcon = faArrowRight;
+  arrowLeftIcon = faArrowLeft;
 
   deletePopup = 'hidden';
   deletePopupIndex = null;
@@ -137,14 +139,14 @@ export class MainComponent implements OnInit, OnDestroy {
   			.pipe(map(feed => {
   				console.log(feed);
   				this.feed = feed;
-  				this.feed.forEach((feedVal, i) => {
-            let parentId = i > 0 ? this.feed[i-1].parent : this.feed[i].parent;
-            this.hiddenVal = i > 0 ? this.feed[i-1].hidden : this.feed[i].hidden;
+  				// this.feed.forEach((feedVal, i) => {
+      //       let parentId = i > 0 ? this.feed[i-1].parent : this.feed[i].parent;
+      //       this.hiddenVal = i > 0 ? this.feed[i-1].hidden : this.feed[i].hidden;
 
-            if (feedVal.parent && this.hiddenVal === true) {
-              feedVal.hidden = this.hiddenVal;
-            }
-  				});
+      //       if (feedVal.parent && this.hiddenVal === true) {
+      //         feedVal.hidden = this.hiddenVal;
+      //       }
+  				// });
 
   				return feed;
   			}), mergeMap((feed):any => {
@@ -167,14 +169,22 @@ export class MainComponent implements OnInit, OnDestroy {
 
   				if (topic[0].feed) {
 
-            if (!assignment.parent) {
-              topic[0].feed[topic[0].feed.length] = assignment;
-            } else {
-              let i = topic[0].feed.findIndex(feed => feed._id === assignment.parent);
+            let updateValueIndex = topic[0].feed.findIndex(val => val._id === assignment._id);
+            console.log(updateValueIndex);
 
-              assignment.marginLeft = topic[0].feed[i].marginLeft ? this.feed[i].marginLeft + 20 : 20;
-              topic[0].feed.splice(i+1, 0, assignment);
+            if (updateValueIndex >= 0) {
+              topic[0].feed[updateValueIndex] = assignment;
+            } else {
+              topic[0].feed[topic[0].feed.length] = assignment;
             }
+
+            // if (!assignment.parent) {
+            // } else {
+            //   let i = topic[0].feed.findIndex(feed => feed._id === assignment.parent);
+
+            //   assignment.marginLeft = topic[0].feed[i].marginLeft ? this.feed[i].marginLeft + 20 : 20;
+            //   topic[0].feed.splice(i+1, 0, assignment);
+            // }
             
   				} else {
   					topic[0].feed =[ assignment ];			
@@ -197,9 +207,7 @@ export class MainComponent implements OnInit, OnDestroy {
   	} 
   }
 
-  goToCreateTest(topicId) {
-  	this.router.navigate(['../add-testwork'], {queryParams: {topicId: topicId},relativeTo: this.route});
-  }
+  // ======== Topic =======
 
   createTopic() {
   	const title = this.topicForm.value.title;
@@ -238,7 +246,7 @@ export class MainComponent implements OnInit, OnDestroy {
   	const topicId = id;
   	const title = this.editForm.value.title;
   	const hidden = this.editForm.value.hidden;
-	// console.log(this.editForm.value);
+
   	this.topicService
   		.editTopic({id: topicId, title: title, hidden: hidden})
   		.subscribe((topic: {title, hidden}) => {
@@ -267,33 +275,26 @@ export class MainComponent implements OnInit, OnDestroy {
   	});
   }
 
-  deletePost(index, postIndex, postId) {
-  	this.topics[index].feed.splice(postIndex, 1);
-  	this.postService.deletePost({id: postId}).subscribe(result =>{ 
-
-  	});
+  topicMode() {
+    this.newTopicMode = !this.newTopicMode;
   }
 
-  deleteArticle(index, articleIndex, articleId) {
-    
-    this.articleService.deleteArticle({id: articleId}).subscribe(result =>{ 
-      this.deletePopup = 'hidden';
-      this.deletePopupIndex = null;
-      this.topics[index].feed.splice(articleIndex, 1);
-    });
+  showEditTopic(topic, i) {
+    this.editIndex = i;
+    this.editForm.patchValue({title: topic.title, hidden: topic.hidden});
   }
 
-  openLink(url, file) {
-  	let fileUrl = url;
-  	if (file) {
-  		fileUrl =  "http://localhost:8000/" + url;
-  	}
-  	
-  	window.open(fileUrl, '_blank');
+  goToTopic(id) {
+    this.scrollEl = "topic" + id;
+  }
+
+  // ========= Test ========
+
+  goToCreateTest(topicId) {
+    this.router.navigate(['../add-testwork'], {queryParams: {topicId: topicId},relativeTo: this.route});
   }
 
   goToTest(topicId, testworkId) {
-  	// this.testworkService.sendEditTest(testwork);
   	if (this.userType === 'teacher') {
   		this.router.navigate(['../testAnswers'], {relativeTo: this.route, queryParams: { testworkId: testworkId } });
   	} else if (this.userType === 'student') {
@@ -307,8 +308,48 @@ export class MainComponent implements OnInit, OnDestroy {
   	}
   }
 
-  goToTopic(id) {
-    this.scrollEl = "topic" + id;
+  // ====== Assignment ======
+
+  showAssignment(topic, assignmentId) {
+  	this.courseService.showAssignment(topic);
+  	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
+  }
+
+  move(id, topicIndex, postIndex, val, type) {
+
+    let newMargin = this.topics[topicIndex].feed[postIndex].margin + val;
+    if (newMargin < 10 && newMargin > -1) {
+      this.topics[topicIndex].feed[postIndex].margin = newMargin;
+      if (type === 'assignment') {
+        this.assignmentService.addMargin({id: id, value: val}).subscribe(result => {});
+      } else if (type === 'post') {
+        this.postService.addMargin({id: id, value: val}).subscribe(result => {});
+      }
+    }
+    
+  }
+
+  // ======= Post =======
+
+  showPost(topic) {
+  	this.courseService.showPost(topic);
+  	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
+  }
+
+
+  deletePost(index, postIndex, postId) {
+    this.postService.deletePost({id: postId}).subscribe(result =>{ 
+      this.deletePopupIndex = null;
+      this.deletePopup = 'hidden';
+      this.topics[index].feed.splice(postIndex, 1);
+    });
+  }
+
+  // ====== Article ======
+
+  showArticle(topic) {
+    this.courseService.showArticle(null, topic);
+    document.getElementById('header').scrollIntoView({ behavior: 'smooth' });    
   }
 
   goToEditArticle(feedPost, topicId) {
@@ -316,28 +357,24 @@ export class MainComponent implements OnInit, OnDestroy {
     document.getElementById('header').scrollIntoView({ behavior: 'smooth' });
   }
 
-  showAssignment(topic, assignmentId) {
-  	this.courseService.showAssignment({topic: topic, assignmentId: assignmentId});
-  	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
+  deleteArticle(index, articleIndex, articleId) {
+    this.articleService.deleteArticle({id: articleId}).subscribe(result =>{ 
+      this.deletePopup = 'hidden';
+      this.deletePopupIndex = null;
+      this.topics[index].feed.splice(articleIndex, 1);
+    });
   }
 
-  showPost(topic) {
-  	this.courseService.showPost(topic);
-  	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
-  }
 
-  showArticle(topic) {
-    this.courseService.showArticle(null, topic);
-    document.getElementById('header').scrollIntoView({ behavior: 'smooth' });    
-  }
+  // ======= Scroll ========
 
-  showEditTopic(topic, i) {
-  	this.editIndex = i;
-  	this.editForm.patchValue({title: topic.title, hidden: topic.hidden});
-  }
-
-  topicMode() {
-  	this.newTopicMode = !this.newTopicMode;
+  openLink(url, file) {
+    let fileUrl = url;
+    if (file) {
+      fileUrl =  "http://localhost:8000/" + url;
+    }
+    
+    window.open(fileUrl, '_blank');
   }
 
   goUp() {

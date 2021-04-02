@@ -23,6 +23,20 @@ export class AssignmentService {
 			}));
 	}
 
+	addMargin(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/assignment/addMargin', 
+			JSON.stringify(param), {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			}).pipe(catchError(error => {
+				return throwError(error);
+			}));
+	}
+
+
 	getAssignmentById(param: Params) {
 		return this.http.post(
 			'http://localhost:8000/assignment/getAssignmentById', 

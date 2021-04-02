@@ -26,9 +26,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   ]
 })
 export class AddAssignmentComponent implements OnInit, OnDestroy {
-  @Input() topicAndParent;
-  topicId;
-  parentId = null;
+  @Input() topicId;
+  @Input() courseId;
 
   fileIcon = faFile;
   errorState = 'hidden';
@@ -46,14 +45,8 @@ export class AddAssignmentComponent implements OnInit, OnDestroy {
   		      private router: Router) { }
 
   ngOnInit() {
-  	console.log(this.topicAndParent);
-  	this.topicId = this.topicAndParent.topic;
-  	if (this.topicAndParent.assignmentId) {
-  		this.parentId = this.topicAndParent.assignmentId;
-  	}
   	
     console.log(this.topicId);
-    console.log(this.parentId);
 
 
   	this.currentDate.setHours(this.currentDate.getHours() + 2);
@@ -118,10 +111,7 @@ export class AddAssignmentComponent implements OnInit, OnDestroy {
 	  		formData.append('deadline', deadline);
 	  		formData.append('maxGrade', maxGrade);
 
-	  		formData.append('courseId', this.courseService.courseId);
-
-	      formData.append('parentId', this.parentId || '');
-
+	  		formData.append('courseId', this.courseId);
     		formData.append('topicId', this.topicId);
 
 
@@ -130,7 +120,6 @@ export class AddAssignmentComponent implements OnInit, OnDestroy {
 	  			formData)
 	  			.subscribe(result => {
 	  				this.courseService.showAssignment(null);
-	  				// this.courseService.sendNewAssignment(result);
 	  				this.courseService.sendNewFeedPost(result);
 	  			}, err => {
 	  				this.courseService.showAssignment(null);
