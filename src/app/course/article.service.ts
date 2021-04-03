@@ -21,6 +21,17 @@ export class ArticleService {
 			})
 	}
 
+	addMargin(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/article/addMargin', 
+			JSON.stringify(param), {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			});
+	}
+
 	updateArticle(param: Params) {
 		return this.http.post(
 			'http://localhost:8000/article/updateArticle', 

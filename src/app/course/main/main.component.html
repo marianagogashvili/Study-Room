@@ -112,28 +112,41 @@
 				<div class="assignments__div" *ngIf="topic.feed && topic.feed.length > 0; else elseBlock">
 					<div class="assignment__div" *ngFor="let feedPost of topic.feed; index as postIndex" style="display: flex; align-items: center;">
 
-						<span *ngIf="feedPost.fileUrl && !feedPost.maxGrade" class="pdf__icon" >
-							<span 
-								class="pdf__icon" 
-								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 1] === 'f'">
-								<fa-icon [icon]="pdfIcon"></fa-icon>
+						<span 
+						*ngIf="feedPost.fileUrl && !feedPost.maxGrade" 
+						style="display: flex; align-items: center;"
+						[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
+							<span class="pdf__icon" >
+								<span 
+									class="pdf__icon" 
+									*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 1] === 'f'">
+									<fa-icon [icon]="pdfIcon"></fa-icon>
+								</span>
+								<span 
+									class="word__icon" 
+									*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 2] ===  'c'">
+									<fa-icon [icon]="wordIcon"></fa-icon>
+								</span>
+								<span
+									class="powerpoint__icon" 
+									*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 2] ===  'p'">
+									<fa-icon [icon]="powerpointIcon"></fa-icon>
+								</span>
 							</span>
-							<span 
-								class="word__icon" 
-								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 2] ===  'c'">
-								<fa-icon [icon]="wordIcon"></fa-icon>
-							</span>
-							<span
-								class="powerpoint__icon" 
-								*ngIf="feedPost.fileUrl[feedPost.fileUrl.length - 2] ===  'p'">
-								<fa-icon [icon]="powerpointIcon"></fa-icon>
-							</span>
-						</span>
 
-						<span *ngIf="feedPost.fileUrl && !feedPost.maxGrade" style="display: flex; align-items: center;">
 							<span class="assignment__title" (click)="openLink(feedPost.fileUrl, true)" >
 								{{ feedPost.title }}
 							</span>
+
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowLeftIcon" 
+								(click)="move(feedPost._id, i, postIndex, -1, 'post')"></fa-icon>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowRightIcon" 
+								(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
+
 
 							<fa-icon 
 								*ngIf="userType === 'teacher'"
@@ -196,13 +209,23 @@
 
 <!-- /////////////// -->
 						<span *ngIf="feedPost.text" 
-							style="display: flex; align-items: center;">
+							style="display: flex; align-items: center;"
+							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
 							<fa-icon 
 								[icon]="articleIcon"
 								class="article__icon"></fa-icon>
 							<span class="assignment__title link__icon__title" 
 							[routerLink]="['../article', feedPost._id]" >
 								{{ feedPost.title }}</span>
+
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowLeftIcon" 
+								(click)="move(feedPost._id, i, postIndex, -1, 'article')"></fa-icon>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowRightIcon" 
+								(click)="move(feedPost._id, i, postIndex, 1, 'article')"></fa-icon>
 
 							<button 
 								type="button" 
@@ -250,17 +273,31 @@
 
 						
 
-						<div *ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.questions" (click)="goToTest(topic._id, feedPost._id)">
+						<div 
+							*ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.questions" 
+							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
 							<span class="test__icon">
 								<fa-icon [icon]="testIcon"></fa-icon>
 							</span>
 
-							<span class="assignment__title">{{ feedPost.title }} 
-								<button 
+
+							<span 
+								(click)="goToTest(topic._id, feedPost._id)" class="assignment__title">{{ feedPost.title }} </span>
+
+							<button 
 								type="button" 
 								*ngIf="userType === 'teacher'"
 								class="edit-test__btn" (click)="goToEditTest(topic._id, feedPost._id)">edit</button>
-							</span>
+
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowLeftIcon" 
+								(click)="move(feedPost._id, i, postIndex, -1, 'test')"></fa-icon>
+							<fa-icon 
+								*ngIf="userType === 'teacher'" 
+								[icon]="arrowRightIcon" 
+								(click)="move(feedPost._id, i, postIndex, 1, 'test')"></fa-icon>
+							
 						</div>
 						
 					</div>

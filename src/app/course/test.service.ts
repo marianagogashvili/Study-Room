@@ -19,6 +19,17 @@ export class TestService {
 			})
 	}
 
+	addMargin(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/testwork/addMargin', 
+			JSON.stringify(param), {
+				headers: new HttpHeaders({
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			});
+	}
+
 	updateTestwork(param: Params) {
 		return this.http.post(
 			'http://localhost:8000/testwork/updateTest', 

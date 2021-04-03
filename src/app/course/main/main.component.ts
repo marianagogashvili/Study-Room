@@ -324,6 +324,10 @@ export class MainComponent implements OnInit, OnDestroy {
         this.assignmentService.addMargin({id: id, value: val}).subscribe(result => {});
       } else if (type === 'post') {
         this.postService.addMargin({id: id, value: val}).subscribe(result => {});
+      } else if (type === 'article') {
+        this.articleService.addMargin({id: id, value: val}).subscribe(result => {});
+      } else if (type === 'test') {
+        this.testworkService.addMargin({id: id, value: val}).subscribe(result => {});
       }
     }
     
