@@ -186,7 +186,7 @@ textarea::placeholder {
 	padding: 5px 10px;
 }
 
-.correct_answ__div, .wrong_answ__div {
+.correct_answ__div, .student_answ__div {
     padding: 20px;
 }
 
@@ -194,8 +194,8 @@ textarea::placeholder {
 	background-color: #d7ffc2
 }
 
-.wrong_answ__div {
-	background-color: #ffdcd9
+.student_answ__div {
+	background-color: #f7f7f7;
 }
 
 .answers__div {

@@ -43,13 +43,14 @@ export class GradeAnswersComponent implements OnInit, OnDestroy {
 	  			const answ = new FormGroup({
 			  		'question': new FormControl(answer.question._id.toString(), Validators.required),
 			  		'answer': new FormControl(answer.studentAnswer, Validators.required),
-			  		'grade': new FormControl(answer.points, Validators.required)
+			  		'answers': new FormControl(answer.studentAnswers, Validators.required),
+            'grade': new FormControl(answer.points, Validators.required)
 			  	});
 
 	  			this.studentAnswer = student.answers;
-         console.log(this.studentAnswer);
+          // console.log(this.studentAnswer);
 	  			(<FormArray>this.pointsForm.get('answers')).push(answ);
-		  		 console.log(this.pointsForm);
+		  		// console.log(this.pointsForm.value);
 	  		});
   		} else {
   			this.router.navigate(['../'], {queryParams: {testworkId: this.testId}, relativeTo:this.route});  			
@@ -64,7 +65,7 @@ export class GradeAnswersComponent implements OnInit, OnDestroy {
   	this.studentAnswer.forEach((answ, index) => {
   		if (this.pointsForm.value.answers[index].grade !== answ.points) {
   			noChanges = false;
-  			return false;
+        return noChanges;
   		}
   	});
 
@@ -76,11 +77,16 @@ export class GradeAnswersComponent implements OnInit, OnDestroy {
   		.subscribe(result => {
   			console.log(this.student);
   			let sumPoints = 0;
+        let gradedQuestions = 0;
   			this.pointsForm.value.answers.forEach((val, index) => {
   				sumPoints += val.grade;
+          if (val.grade || val.grade === 0) {
+            gradedQuestions += 1;
+          }
   				this.student.answers[index].points = val.grade;
   			});
   			this.student.sumPoints = sumPoints;
+        this.student.gradedQuestions = gradedQuestions;
 
   			this.testworkService.sendAnswers(this.student);
   			this.router.navigate(['../'], {queryParams: {testworkId: this.testId}, relativeTo:this.route});

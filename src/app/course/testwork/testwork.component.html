@@ -111,16 +111,10 @@
 		</div>
 
 		<div *ngIf="!answer.question.a">
-			
-			<div *ngIf="answer.points === 0">
-				<div class="wrong_answ__div">
-					Your answer: {{  answer.studentAnswer }}
-				</div>
-				<div class="correct_answ__div">
-					Correct answer: {{  answer.question.answer }}
-				</div>
+			<div class="student_answ__div">
+				Your answer: {{  answer.studentAnswer.length > 0 ? answer.studentAnswer : 'None'}} 
 			</div>
-			<div class="correct_answ__div" *ngIf=" answer.points !== 0">
+			<div class="correct_answ__div">
 				Correct answer: {{  answer.question.answer }}
 			</div>
 		</div>
@@ -163,7 +157,7 @@
 			<button 
 				class="start__btn" 
 				type="button" 
-				(click)="currentQuestionId = currentQuestionId + 1"
+				(click)="goToNextQuestion()"
 				*ngIf="testwork.questions.length > currentQuestionId+1"
 				>Next</button>
 		</div>
