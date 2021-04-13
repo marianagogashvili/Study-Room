@@ -38,10 +38,21 @@
 
 	<div class="main__header">
 
-		<a class="main__header-link"  (click)="openNav()"><span class="link__span">&#9776;</span></a>
 		<a href="" class="main__header-link"><span class="link__span">About</span></a>
 		<a href="" class="main__header-link"><span class="link__span">Grades</span></a>
 		<a href="" class="main__header-link"><span class="link__span">Edit Profile</span></a>
+		<a class="dropdown"><span class="notification__icon">
+			<fa-icon [icon]="notifIcon"></fa-icon>
+			<span class="notif__span" *ngIf="unseenNotifs > 0">{{ unseenNotifs }}</span>
+		</span>
+		<div class="dropdown-content">
+			<ul class="notif__list">
+				<li [routerLink]="[notif.type, notif.linkId]" *ngFor="let notif of notifications">{{ notif.description }} "{{ notif.title }}"</li>
+			</ul>
+		</div>
+		</a>
+
+
 
 		<button href="" *ngIf="loggedIn" (click)="logOut()" class="main__header-link log-link">Log out</button>
 		<button href="" *ngIf="!loggedIn" (click)="logIn()" class="main__header-link log-link">Log in</button>

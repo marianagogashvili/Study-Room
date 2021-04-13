@@ -10,12 +10,14 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { StudentService } from '../student/student.service';
 import { TeacherService } from '../teacher/teacher.service';
 import { TopicService } from '../course/topic.service';
+import { HomeService } from '../home.service';
 
 import jwt_decode from "jwt-decode";
 
@@ -98,17 +100,22 @@ export class HeaderComponent implements OnInit {
   showCourses;
   showTopics;
   courseTopics = null;
+  
+  notifications;
+  unseenNotifs;
 
   openIcon = faAngleDown;
   closedIcon = faAngleRight;
   uniIcon = faUniversity;
   topicIcon = faPuzzlePiece;
+  notifIcon = faBell;
 
   constructor(private router: Router,
               private studentService: StudentService,
               private teacherService: TeacherService,
               private route: ActivatedRoute,
-              private topicService: TopicService) { }
+              private topicService: TopicService,
+              private homeService: HomeService) { }
 
   ngOnInit() {
     this.loading = false;
@@ -141,8 +148,18 @@ export class HeaderComponent implements OnInit {
 
         });
       }
-      
     });
+
+    this.homeService.getNotifications().subscribe((result: [{seen}]) => {
+      console.log(result);
+      let unseen = 0;
+      result.forEach(val => unseen += val.seen === false ? 1 : 0);
+      console.log(unseen);
+
+      this.unseenNotifs = unseen;
+      this.notifications = result;
+    });
+
     if (this.displayHeader) {
      this.closeNav();
     }
