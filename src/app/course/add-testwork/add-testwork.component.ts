@@ -101,6 +101,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 
   onAddTestQuestion() {
   	const group = new FormGroup({
+      '_id': new FormControl('', Validators.required),
   		'title': new FormControl('', Validators.required),
   		'a': new FormControl('', Validators.required),
   		'b': new FormControl('', Validators.required),
@@ -115,6 +116,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 
   onAddChoiceQuestion() {
     const group = new FormGroup({
+      '_id': new FormControl('', Validators.required),
       'title': new FormControl('', Validators.required),
       'a': new FormControl('', Validators.required),
       'b': new FormControl('', Validators.required),
@@ -140,6 +142,7 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 
   onAddQuestion() {
   	const group = new FormGroup({
+      '_id': new FormControl('', Validators.required),
   		'title': new FormControl('', Validators.required),
   		'answer': new FormControl('', Validators.required),
   		'points': new FormControl('', Validators.required),
@@ -164,7 +167,16 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 	  	const deadline = this.createForm.value.deadline;
 	  	const hidden = this.createForm.value.hidden;
 	  	const timeRestriction = this.createForm.value.hours * 3600 + this.createForm.value.minutes * 60;
-	  	console.log(this.createForm.value.testQuestions);
+	  	console.log(this.editTestwork.questions);
+      console.log(testQuestions);
+      let questionsEdited = false;
+      this.editTestwork.questions.forEach((question, i) => {
+        if (testQuestions[i] !== question) {
+          questionsEdited = true;
+        }
+      })
+      console.log(questionsEdited);
+
 
 	  	if (this.editTestwork) {
 	  		this.testworkService.updateTestwork({

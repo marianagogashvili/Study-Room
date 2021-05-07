@@ -68,10 +68,12 @@ export class TestAnswersComponent implements OnInit, OnDestroy {
       this.testworkId = testworkId;
       return this.testworkService.getAnswersForTeacher({testId: this.testworkId});
     }), mergeMap((result):any => {
+        console.log(result);
         this.students = result;
         this.defaultStudents = result;
         return this.testworkService.studentsAnswers;
     })).subscribe((updatedStudent: any)  => {
+        console.log(updatedStudent);
         if (updatedStudent) {
           this.students.forEach(student => student._id === updatedStudent._id ? student = updatedStudent : false);
           this.defaultStudents = this.students;

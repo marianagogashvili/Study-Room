@@ -42,12 +42,34 @@
 		<a href="" class="main__header-link"><span class="link__span">Grades</span></a>
 		<a href="" class="main__header-link"><span class="link__span">Edit Profile</span></a>
 		<a class="dropdown"><span class="notification__icon">
-			<fa-icon [icon]="notifIcon"></fa-icon>
+			<fa-icon [icon]="notifIcon" (click)="showNotifications()"></fa-icon>
 			<span class="notif__span" *ngIf="unseenNotifs > 0">{{ unseenNotifs }}</span>
 		</span>
 		<div class="dropdown-content">
-			<ul class="notif__list">
-				<li [routerLink]="[notif.type, notif.linkId]" *ngFor="let notif of notifications">{{ notif.description }} "{{ notif.title }}"</li>
+			<ul class="notif__list" *ngIf="showNotifs">
+				<li *ngFor="let notif of notifications">
+					<span 
+						*ngIf="notif.type !== 'testanswer' && notif.type !== 'test'" 
+						[routerLink]="['/course', notif.courseId, notif.type, notif.linkId]">
+						{{ notif.description }} "{{ notif.title }}"
+					</span>
+
+					<span 
+						*ngIf="notif.type === 'test'" 
+						[routerLink]="['/course', notif.courseId, 'testAnswers']" 
+						[queryParams]="{ testworkId: notif.linkId }">
+						{{ notif.description }} "{{ notif.title }}"
+					</span>
+
+					<span 
+						*ngIf="notif.type === 'testanswer'" 
+						[routerLink]="['/course', notif.courseId, 'testwork']" 
+						[queryParams]="{ testId: notif.linkId }">
+						{{ notif.description }} "{{ notif.title }}"
+					</span>
+
+				</li>
+
 			</ul>
 		</div>
 		</a>

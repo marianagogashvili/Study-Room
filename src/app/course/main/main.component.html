@@ -110,12 +110,15 @@
 			</div>
 			<div *ngIf="userType === 'teacher' || (userType === 'student' && topic.hidden === false)">
 				<div class="assignments__div" *ngIf="topic.feed && topic.feed.length > 0; else elseBlock">
-					<div class="assignment__div" *ngFor="let feedPost of topic.feed; index as postIndex" style="display: flex; align-items: center;">
+					<div class="row__div" *ngFor="let feedPost of topic.feed; index as postIndex">
 
+						<!--------------- Post (file) ------------------->
 						<span 
 						*ngIf="feedPost.fileUrl && !feedPost.maxGrade" 
-						style="display: flex; align-items: center;"
+						class="center__div"
 						[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
+
+							<!-- # File-icon -->
 							<span class="pdf__icon" >
 								<span 
 									class="pdf__icon" 
@@ -134,169 +137,226 @@
 								</span>
 							</span>
 
+							<!-- # File-title -->
 							<span class="assignment__title" (click)="openLink(feedPost.fileUrl, true)" >
 								{{ feedPost.title }}
 							</span>
 
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowLeftIcon" 
-								(click)="move(feedPost._id, i, postIndex, -1, 'post')"></fa-icon>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowRightIcon" 
-								(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
+							<!-- # File-btns -->
+							<span *ngIf="userType === 'teacher'" class="center__div">
 
+								<!-- # File-move-btns -->
+								<fa-icon 
+									class="arrowleft__icon"
+									[icon]="arrowLeftIcon" 
+									(click)="move(feedPost._id, i, postIndex, -1, 'post')"></fa-icon>
+								<fa-icon 
+									class="arrowright__icon"
+									[icon]="arrowRightIcon" 
+									(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
 
-							<fa-icon 
-								*ngIf="userType === 'teacher'"
-								(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
-								class="minus__icon" 
-								[icon]="minusIcon">
-							</fa-icon>
+								<!-- # File-delete-btn -->
+								<fa-icon 
+									(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
+									class="minus__icon" 
+									[icon]="minusIcon">
+								</fa-icon>
 
-							<span 
-								class="popupSpan" 
-								*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
-								[@deletePopup]="deletePopup">
-								Are you sure ? 
-								<button class="popupYesBtn" (click)="deletePost(i, postIndex, feedPost._id)">yes</button>
-								<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+								<span 
+									class="popupSpan" 
+									*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
+									[@deletePopup]="deletePopup">
+									Are you sure ? 
+									<button class="popupYesBtn" (click)="deletePost(i, postIndex, feedPost._id)">yes</button>
+									<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+								</span>
 							</span>
+							
 						</span>
 
 						
+						<!--------------- Post (link) ------------------->
 
 						<span 
 							*ngIf="feedPost.link" 
-							style="display: flex; align-items: center;"
+							class="center__div"
 							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
-							<span  class="link__icon" >
+
+							<!-- # Link-icon -->
+							<span class="link__icon" >
 								<fa-icon [icon]="linkIcon"></fa-icon>
 							</span>
 
-							<span class="assignment__title link__icon__title" 
-							(click)="openLink(feedPost.link, false)">
+							<!-- # Link-title -->
+							<span 
+								class="assignment__title link__icon__title" 
+								(click)="openLink(feedPost.link, false)">
 								{{ feedPost.title }}</span>
 
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowLeftIcon" 
-								(click)="move(feedPost._id, i, postIndex, -1, 'post')"></fa-icon>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowRightIcon" 
-								(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
-
-
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								class="minus__icon" 
-								(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
-								[icon]="minusIcon">
-							</fa-icon>
-
+							<!-- # Link-btns -->							
 							<span 
-								class="popupSpan" 
-								*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
-								[@deletePopup]="deletePopup">
-								Are you sure ? 
-								<button class="popupYesBtn" (click)="deletePost(i, postIndex, feedPost._id)" >yes</button>
-								<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+								*ngIf="userType === 'teacher'" 
+								class="center__div">
+
+								<!-- # Link-move-btns -->
+								<fa-icon 
+									class="arrowleft__icon"
+									[icon]="arrowLeftIcon" 
+									(click)="move(feedPost._id, i, postIndex, -1, 'post')"></fa-icon>
+								<fa-icon 
+									class="arrowright__icon" 
+									[icon]="arrowRightIcon" 
+									(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
+
+								<!-- # Link-delete-btn -->
+								<fa-icon 
+									class="minus__icon" 
+									(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
+									[icon]="minusIcon">
+								</fa-icon>
+
+								<span 
+									class="popupSpan" 
+									*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
+									[@deletePopup]="deletePopup">
+									Are you sure ? 
+									<button class="popupYesBtn" (click)="deletePost(i, postIndex, feedPost._id)" >yes</button>
+									<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+								</span>
 							</span>
+							
 
 						</span>
 
-<!-- /////////////// -->
+						<!--------------- Article ------------------->
+
 						<span *ngIf="feedPost.text" 
-							style="display: flex; align-items: center;"
+							class="center__div"
 							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
+
+							<!-- # Article-icon -->
 							<fa-icon 
 								[icon]="articleIcon"
 								class="article__icon"></fa-icon>
+
+							<!-- # Article-title -->
 							<span class="assignment__title link__icon__title" 
 							[routerLink]="['../article', feedPost._id]" >
 								{{ feedPost.title }}</span>
 
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowLeftIcon" 
-								(click)="move(feedPost._id, i, postIndex, -1, 'article')"></fa-icon>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowRightIcon" 
-								(click)="move(feedPost._id, i, postIndex, 1, 'article')"></fa-icon>
-
-							<button 
-								type="button" 
-								*ngIf="userType === 'teacher'"
-								class="edit-test__btn" (click)="goToEditArticle(feedPost, topic._id, feedPost._id)">edit</button>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
-								class="minus__icon" 
-								[icon]="minusIcon">
-							</fa-icon>
-
+							<!-- # Article-btns -->
 							<span 
-								class="popupSpan" 
-								*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
-								[@deletePopup]="deletePopup">
-								Are you sure ? 
-								<button class="popupYesBtn" (click)="deleteArticle(i, postIndex, feedPost._id)">yes</button>
-								<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
-							</span>
+								*ngIf="userType === 'teacher'"
+								class="center__div">
 
+								<!-- # Article-move-btns -->
+								<fa-icon 
+									class="arrowleft__icon"
+									[icon]="arrowLeftIcon" 
+									(click)="move(feedPost._id, i, postIndex, -1, 'article')"></fa-icon>
+								<fa-icon 
+									class="arrowright__icon"
+									[icon]="arrowRightIcon" 
+									(click)="move(feedPost._id, i, postIndex, 1, 'article')"></fa-icon>
+
+								<!-- # Article-edit-btn -->
+								<button 
+									type="button" 
+									class="edit-test__btn" (click)="goToEditArticle(feedPost, topic._id, feedPost._id)">edit</button>
+
+								<!-- # Article-delete-btn -->
+								<fa-icon 
+									(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"
+									class="minus__icon" 
+									[icon]="minusIcon">
+								</fa-icon>
+
+								<span 
+									class="popupSpan" 
+									*ngIf="deletePopupIndex === postIndex"  [@deletePopupHidden]="deletePopup" 
+									[@deletePopup]="deletePopup">
+									Are you sure ? 
+									<button class="popupYesBtn" (click)="deleteArticle(i, postIndex, feedPost._id)">yes</button>
+									<button class="popupNoBtn" (click)="deletePopup='hidden'">no</button>
+								</span>
+
+							</span>
 							
 						</span>
-<!-- /////////////// -->
+
+						<!--------------- Assignment ------------------->
+
 						<div 
 							*ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.maxGrade" 
+							class="center__div"
 							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
+
+							<!-- # Assignment-icon -->
 							<span class="file__icon">
-								<fa-icon [icon]="fileIcon"></fa-icon>
+								<!-- <fa-icon [icon]="fileIcon"></fa-icon> -->
+								<fa-icon [icon]="downloadIcon"></fa-icon>
+
 							</span>
 
+							<!-- # Assignment-title -->
 							<span class="assignment__title" [routerLink]="['../assignment/', feedPost._id]"  
 							[ngClass]="{'hidden__span': feedPost.hidden}">
 								{{ feedPost.title }}
 							</span>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowLeftIcon" 
-								(click)="move(feedPost._id, i, postIndex, -1, 'assignment')"></fa-icon>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowRightIcon" 
-								(click)="move(feedPost._id, i, postIndex, 1, 'assignment')"></fa-icon>
+
+							<!-- # Assignment-btns -->
+							<span 
+								*ngIf="userType === 'teacher'"
+								class="center__div">
+								<fa-icon 
+									class="arrowleft__icon"
+									[icon]="arrowLeftIcon" 
+									(click)="move(feedPost._id, i, postIndex, -1, 'assignment')"></fa-icon>
+								<fa-icon 
+									class="arrowright__icon"
+									[icon]="arrowRightIcon" 
+									(click)="move(feedPost._id, i, postIndex, 1, 'assignment')"></fa-icon>
+							</span>
+							
 						</div>
 
 						
+						<!--------------- Testwork ------------------->
 
 						<div 
 							*ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.questions" 
+							class="center__div"
 							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
+
+							<!-- # Testwork-icon -->
 							<span class="test__icon">
 								<fa-icon [icon]="testIcon"></fa-icon>
 							</span>
 
-
+							<!-- # Testwork-title -->
 							<span 
 								(click)="goToTest(topic._id, feedPost._id)" class="assignment__title">{{ feedPost.title }} </span>
 
-							<button 
-								type="button" 
+							<!-- # Testwork-btns -->
+							<span 
 								*ngIf="userType === 'teacher'"
-								class="edit-test__btn" (click)="goToEditTest(topic._id, feedPost._id)">edit</button>
+								class="center__div">
 
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowLeftIcon" 
-								(click)="move(feedPost._id, i, postIndex, -1, 'test')"></fa-icon>
-							<fa-icon 
-								*ngIf="userType === 'teacher'" 
-								[icon]="arrowRightIcon" 
-								(click)="move(feedPost._id, i, postIndex, 1, 'test')"></fa-icon>
+								<!-- # Testwork-move-btns -->
+								<fa-icon 
+									class="arrowleft__icon"
+									[icon]="arrowLeftIcon" 
+									(click)="move(feedPost._id, i, postIndex, -1, 'test')"></fa-icon>
+								<fa-icon 
+									class="arrowright__icon" 
+									[icon]="arrowRightIcon" 
+									(click)="move(feedPost._id, i, postIndex, 1, 'test')"></fa-icon>
+
+								<!-- # Testwork-edit-btn -->
+								<button 
+									type="button" 
+									class="edit-test__btn" (click)="goToEditTest(topic._id, feedPost._id)">edit</button>
+							</span>
 							
 						</div>
 						

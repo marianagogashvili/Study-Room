@@ -18,7 +18,8 @@ import { pipe, Subscription } from 'rxjs';
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { faFileAlt } from '@fortawesome/free-regular-svg-icons';
+// import { faFileAlt } from '@fortawesome/free-regular-svg-icons';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileWord } from '@fortawesome/free-regular-svg-icons';
@@ -27,8 +28,8 @@ import { faFilePowerpoint } from '@fortawesome/free-regular-svg-icons';
 import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faVial } from '@fortawesome/free-solid-svg-icons';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -75,13 +76,15 @@ export class MainComponent implements OnInit, OnDestroy {
   pdfIcon = faFilePdf;
   powerpointIcon = faFilePowerpoint;
   wordIcon = faFileWord;
-  fileIcon = faFileAlt;
+  // fileIcon = faFileAlt;
+  downloadIcon = faDownload;
+
   testIcon = faVial;
   articleIcon = faAlignJustify;
   linkIcon = faExternalLinkAlt;
   minusIcon = faMinusCircle;
-  arrowRightIcon = faArrowRight;
-  arrowLeftIcon = faArrowLeft;
+  arrowRightIcon = faArrowAltCircleRight;
+  arrowLeftIcon = faArrowAltCircleLeft;
 
   deletePopup = 'hidden';
   deletePopupIndex = null;

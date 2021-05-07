@@ -4,6 +4,10 @@ body {
 	display: flex;
 }
 
+fa-icon {
+	cursor: pointer;
+}
+
 .mainBody {
 	flex: 1;
 }
@@ -255,6 +259,7 @@ input.ng-touched.ng-invalid {
 	font-size: 18px;
 	outline: none;
 	cursor: pointer;
+	margin-right: 10px;
 }
 .assignment__title:hover {
 	color: #8a8a8a;
@@ -270,7 +275,7 @@ input.ng-touched.ng-invalid {
 .test__icon, 
 .powerpoint__icon,
 .article__icon { 
-	font-size: 25px;
+	font-size: 22px;
 }
 
 .article__icon {
@@ -292,9 +297,16 @@ input.ng-touched.ng-invalid {
 }
 
 .file__icon {
-	color: #4e4e4e;
+	color: #388cbc;
 }
 
+.arrowleft__icon,
+.arrowright__icon {
+	font-size: 20px;
+	margin-left: 5px;
+	margin-right: 5px;
+	color: grey;
+}
 
 
 .test__icon {
@@ -322,8 +334,15 @@ input.ng-touched.ng-invalid {
 	color: #424236;
 }
 
-.assignment__div {
+.row__div {
 	margin: 10px 0;
+	display: flex; 
+	align-items: center;
+}
+
+.center__div {
+	display: flex; 
+	align-items: center;
 }
 
 .nothing__p {

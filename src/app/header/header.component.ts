@@ -110,6 +110,8 @@ export class HeaderComponent implements OnInit {
   topicIcon = faPuzzlePiece;
   notifIcon = faBell;
 
+  showNotifs = false;
+
   constructor(private router: Router,
               private studentService: StudentService,
               private teacherService: TeacherService,
@@ -169,6 +171,16 @@ export class HeaderComponent implements OnInit {
     // this.openListState = this.openListState === 'shown' ? 'hidden' : 'shown';
     // console.log(this.openListState);
  
+  }
+
+  showNotifications() {
+    if (this.showNotifs === false) {
+      this.showNotifs = true;
+      this.unseenNotifs = 0;
+    } else {
+      this.showNotifs = false;
+    }
+    
   }
 
   toTopic(id) {
