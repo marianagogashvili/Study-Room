@@ -114,7 +114,7 @@
 
 						<!--------------- Post (file) ------------------->
 						<span 
-						*ngIf="feedPost.fileUrl && !feedPost.maxGrade" 
+						*ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.fileUrl && !feedPost.maxGrade" 
 						class="center__div"
 						[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
 
@@ -138,7 +138,10 @@
 							</span>
 
 							<!-- # File-title -->
-							<span class="assignment__title" (click)="openLink(feedPost.fileUrl, true)" >
+							<span 
+								class="assignment__title" 
+								(click)="openLink(feedPost.fileUrl, true)" 
+								[ngClass]="{'hidden__span': feedPost.hidden}">
 								{{ feedPost.title }}
 							</span>
 
@@ -178,7 +181,7 @@
 						<!--------------- Post (link) ------------------->
 
 						<span 
-							*ngIf="feedPost.link" 
+							*ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.link" 
 							class="center__div"
 							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
 
@@ -190,7 +193,8 @@
 							<!-- # Link-title -->
 							<span 
 								class="assignment__title link__icon__title" 
-								(click)="openLink(feedPost.link, false)">
+								(click)="openLink(feedPost.link, false)"
+								[ngClass]="{'hidden__span': feedPost.hidden}">
 								{{ feedPost.title }}</span>
 
 							<!-- # Link-btns -->							
@@ -207,6 +211,11 @@
 									class="arrowright__icon" 
 									[icon]="arrowRightIcon" 
 									(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
+
+								<!-- # Link-edit-btn -->
+								<button 
+									type="button" 
+									class="edit-test__btn" (click)="goToEditPost(feedPost, topic._id, feedPost._id)">edit</button>
 
 								<!-- # Link-delete-btn -->
 								<fa-icon 
@@ -230,7 +239,7 @@
 
 						<!--------------- Article ------------------->
 
-						<span *ngIf="feedPost.text" 
+						<span *ngIf="(userType === 'teacher' || (userType === 'student' && feedPost.hidden === false)) && feedPost.text" 
 							class="center__div"
 							[ngStyle]="{'margin-left': feedPost.margin*16+'px'}">
 
@@ -241,7 +250,8 @@
 
 							<!-- # Article-title -->
 							<span class="assignment__title link__icon__title" 
-							[routerLink]="['../article', feedPost._id]" >
+							[routerLink]="['../article', feedPost._id]" 
+							[ngClass]="{'hidden__span': feedPost.hidden}">
 								{{ feedPost.title }}</span>
 
 							<!-- # Article-btns -->
@@ -260,9 +270,12 @@
 									(click)="move(feedPost._id, i, postIndex, 1, 'article')"></fa-icon>
 
 								<!-- # Article-edit-btn -->
+								<!-- <button 
+									type="button" 
+									class="edit-test__btn" (click)="goToEditArticle(feedPost, topic._id, feedPost._id)">edit</button> -->
 								<button 
 									type="button" 
-									class="edit-test__btn" (click)="goToEditArticle(feedPost, topic._id, feedPost._id)">edit</button>
+									class="edit-test__btn" (click)="goToEditArticle(feedPost, topic._id)">edit</button>
 
 								<!-- # Article-delete-btn -->
 								<fa-icon 
@@ -335,7 +348,10 @@
 
 							<!-- # Testwork-title -->
 							<span 
-								(click)="goToTest(topic._id, feedPost._id)" class="assignment__title">{{ feedPost.title }} </span>
+								(click)="goToTest(topic._id, feedPost._id)" 
+								class="assignment__title"
+							    [ngClass]="{'hidden__span': feedPost.hidden}">
+							{{ feedPost.title }} </span>
 
 							<!-- # Testwork-btns -->
 							<span 

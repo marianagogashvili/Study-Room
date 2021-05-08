@@ -221,8 +221,8 @@ export class CoursesService {
 		this.assignmentMode.emit(val);
 	}
 
-	showPost(val) {
-		this.postMode.emit(val);
+	showPost(value, topicId) {
+		this.postMode.emit({value, topicId});
 	}
 
 	showArticle(value, topicId) {

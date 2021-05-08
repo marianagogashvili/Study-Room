@@ -61,6 +61,7 @@ export class AddArticleComponent implements OnInit {
 
   		this.articleService.createArticle({
 			title: title, 
+			hidden: this.articleForm.value.hidden,
 			text: this.article,
 			topicId: this.topicId,
 			courseId: this.courseId}).subscribe(result => {
@@ -72,12 +73,15 @@ export class AddArticleComponent implements OnInit {
   ngOnInit() {
 
   	this.articleForm = new FormGroup({
-  		'title': new FormControl('', Validators.required)
+  		'title': new FormControl('', Validators.required),
+  		'hidden': new FormControl('', Validators.required)
   	});
 
 
   	if (this.articleValue !== null) {
   		this.articleForm.patchValue({'title': this.articleValue.title})
+  		this.articleForm.patchValue({'hidden': this.articleValue.hidden})
+
   		document.getElementById('article').innerHTML = this.articleValue.text;
 
   	}
@@ -97,6 +101,7 @@ export class AddArticleComponent implements OnInit {
   		if (!this.articleValue) {
   			this.articleService.createArticle({
 				title: this.articleForm.value.title, 
+				hidden: this.articleForm.value.hidden,
 				text: this.article,
 				topicId: this.topicId,
 				courseId: this.courseId}).subscribe(result => {
@@ -107,6 +112,7 @@ export class AddArticleComponent implements OnInit {
   			this.articleService.updateArticle({
   				id: this.articleValue._id,
 				title: this.articleForm.value.title, 
+				hidden: this.articleForm.value.hidden,
 				text: this.article || this.articleValue.text}).subscribe(result => {
 					this.articleService.closePopup();
 					this.courseService.sendNewFeedPost(result);
@@ -114,7 +120,6 @@ export class AddArticleComponent implements OnInit {
   		}
   		
   	}
-
   	
   }
 

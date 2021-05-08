@@ -29,6 +29,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddPostComponent implements OnInit {
   @Input() topicId;
   @Input() courseId;
+  @Input() postValue;
   error;
   file = null;
   errorState = 'hidden';
@@ -62,6 +63,9 @@ export class AddPostComponent implements OnInit {
   createPost(form: NgForm) {
   	const title = form.value.title;
   	const link = form.value.link;
+    const hidden = form.value.hidden;
+
+    console.log(hidden);
 
   	let formData: FormData = new FormData();
   	formData.append('dest', 'post');
@@ -70,18 +74,19 @@ export class AddPostComponent implements OnInit {
   	}
   	formData.append('title', title);
   	formData.append('link', link);
+    formData.append('hidden', hidden);
   	formData.append('topicId', this.topicId);
   	formData.append('courseId', this.courseId);
 
   	this.postService.createPost(formData).subscribe(post =>{ 
   		console.log(post);
 
-  		this.courseService.showPost(null);
-		// this.courseService.sendNewPost(post);
-		this.courseService.sendNewFeedPost(post);
-	}, err => {
-		this.courseService.showPost(null);
-	});
+  		this.courseService.showPost(null, null);
+
+  		this.courseService.sendNewFeedPost(post);
+  	}, err => {
+  		this.courseService.showPost(null, null);
+  	});
   }
 
 }

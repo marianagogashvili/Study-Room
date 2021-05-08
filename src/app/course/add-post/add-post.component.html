@@ -51,6 +51,19 @@
 		#link="ngModel"
 		>
 
+	<div class="hidden__div">
+		<label 
+		class="hidden__label" 
+		for="hide">hidden</label>
+		<input 
+			type="checkbox"
+			class="hidden__input"
+			id="hide"
+			name="hidden"
+			ngModel
+			>
+	</div>
+
 	<button type="submit" class="create__btn" [disabled]="!postForm.valid">Create</button>
 
 </form>

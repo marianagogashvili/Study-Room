@@ -40,7 +40,7 @@ export class CourseComponent implements OnInit,  OnDestroy {
 
   addAssignment = false; addPost = false; addArticle = false; addFolder = false;
   topicId;
-  articleValue;
+  articleValue; postValue;
 
   userType;
 
@@ -76,8 +76,9 @@ export class CourseComponent implements OnInit,  OnDestroy {
   		this.addAssignment = !this.addAssignment;
   	});
 
-    this.courseService.postMode.subscribe((topicId) => {
-      this.topicId = topicId;
+    this.courseService.postMode.subscribe((post) => {
+      this.topicId = post.topicId;
+      this.postValue = post.value;
       this.addPost = !this.addPost;
     });
 

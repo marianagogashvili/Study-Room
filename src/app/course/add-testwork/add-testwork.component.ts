@@ -167,16 +167,6 @@ export class AddTestworkComponent implements OnInit, OnDestroy {
 	  	const deadline = this.createForm.value.deadline;
 	  	const hidden = this.createForm.value.hidden;
 	  	const timeRestriction = this.createForm.value.hours * 3600 + this.createForm.value.minutes * 60;
-	  	console.log(this.editTestwork.questions);
-      console.log(testQuestions);
-      let questionsEdited = false;
-      this.editTestwork.questions.forEach((question, i) => {
-        if (testQuestions[i] !== question) {
-          questionsEdited = true;
-        }
-      })
-      console.log(questionsEdited);
-
 
 	  	if (this.editTestwork) {
 	  		this.testworkService.updateTestwork({

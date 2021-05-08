@@ -343,6 +343,10 @@ export class MainComponent implements OnInit, OnDestroy {
   	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
   }
 
+  goToEditPost(feedPost, topicId) {
+    this.courseService.showPost(feedPost);
+    document.getElementById('header').scrollIntoView({ behavior: 'smooth' });
+  }
 
   deletePost(index, postIndex, postId) {
     this.postService.deletePost({id: postId}).subscribe(result =>{ 

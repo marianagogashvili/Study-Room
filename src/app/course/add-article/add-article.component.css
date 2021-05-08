@@ -153,6 +153,22 @@ input:focus {
     
 }
 
+.hidden__input {
+	width: 20px;
+	height: 20px;
+}
+
+.hidden__label {
+	margin-left: 0.5rem;
+}
+
+.hidden__div {
+	display: inline;
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
 .backdrop {
   position: fixed;
   top: 0;
@@ -181,7 +197,7 @@ input:focus {
 	/*height: 90vh;*/
 	max-width: 900px;
 	/*min-width: 600px;*/
-	height: 630px;
+	height: 680px;
 
 	z-index: 100;
 	padding: 20px;

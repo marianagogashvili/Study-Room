@@ -9,7 +9,7 @@
 
 <app-add-assignment [courseId]="course._id" [topicId]="topicId" *ngIf="addAssignment"></app-add-assignment>
 
-<app-add-post [topicId]="topicId" [courseId]="course._id" *ngIf="addPost"></app-add-post>
+<app-add-post [postValue]="postValue" [topicId]="topicId" [courseId]="course._id" *ngIf="addPost"></app-add-post>
 
 <app-add-article [articleValue]="articleValue" [topicId]="topicId" [courseId]="course._id" *ngIf="addArticle"></app-add-article>
 
