@@ -158,6 +158,11 @@
 									[icon]="arrowRightIcon" 
 									(click)="move(feedPost._id, i, postIndex, 1, 'post')"></fa-icon>
 
+								<!-- # File-edit-btn -->
+								<button 
+									type="button" 
+									class="edit-test__btn" (click)="goToEditPost(feedPost, topic._id, feedPost._id)">edit</button>
+
 								<!-- # File-delete-btn -->
 								<fa-icon 
 									(click)="deletePopup = 'shown'; deletePopupIndex = postIndex"

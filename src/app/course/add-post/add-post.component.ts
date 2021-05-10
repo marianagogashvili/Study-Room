@@ -30,14 +30,26 @@ export class AddPostComponent implements OnInit {
   @Input() topicId;
   @Input() courseId;
   @Input() postValue;
+
   error;
   file = null;
+  fileName;
+
+  editMode = false;
+  formValues = {title: '', link: '', hidden: false};
   errorState = 'hidden';
 
   constructor(private postService: PostsService,
   			  private courseService: CoursesService) { }
 
   ngOnInit() {
+    if (this.postValue) {
+      this.editMode = true;
+      this.formValues = {title: this.postValue.title, link: this.postValue.link, hidden: this.postValue.hidden};
+      if (this.postValue.fileUrl) {
+        this.fileName = this.postValue.fileUrl.split('-')[3];
+      }
+    }
   }
 
   saveFile(event) {
@@ -56,37 +68,48 @@ export class AddPostComponent implements OnInit {
   	}
   }
 
-  removeFile(event) {
-  	this.file = null;
-  }
-
-  createPost(form: NgForm) {
-  	const title = form.value.title;
-  	const link = form.value.link;
+  savePost(form: NgForm) {
+    console.log(form);
+    
+    const title = form.value.title;
+    const link = form.value.link;
     const hidden = form.value.hidden;
 
-    console.log(hidden);
-
-  	let formData: FormData = new FormData();
-  	formData.append('dest', 'post');
-  	if (this.file) {
-  		formData.append('file', this.file, this.file.name);
-  	}
-  	formData.append('title', title);
-  	formData.append('link', link);
+    let formData: FormData = new FormData();
+    formData.append('dest', 'post');
+    if (this.file) {
+      formData.append('file', this.file, this.file.name);
+    }
+    formData.append('title', title);
+    formData.append('link', link);
     formData.append('hidden', hidden);
-  	formData.append('topicId', this.topicId);
-  	formData.append('courseId', this.courseId);
+  
+    console.log(formData);
+      
+    if (!this.editMode) {
+      formData.append('topicId', this.topicId);
+      formData.append('courseId', this.courseId);
 
-  	this.postService.createPost(formData).subscribe(post =>{ 
-  		console.log(post);
+      this.postService.createPost(formData).subscribe(post =>{ 
+        this.courseService.showPost(null, null);
 
-  		this.courseService.showPost(null, null);
+        this.courseService.sendNewFeedPost(post);
+      }, err => {
+        this.courseService.showPost(null, null);
+      });
+    } else {
+      console.log("tut");
+      formData.append('id', this.postValue._id);
 
-  		this.courseService.sendNewFeedPost(post);
-  	}, err => {
-  		this.courseService.showPost(null, null);
-  	});
+      this.postService.updatePost(formData).subscribe(post =>{ 
+        this.courseService.showPost(null, null);
+
+        this.courseService.sendNewFeedPost(post);
+      }, err => {
+        this.courseService.showPost(null, null);
+      });
+    }
+  	
   }
 
 }

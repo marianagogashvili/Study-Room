@@ -1,7 +1,7 @@
 
 <div class="editDiv"> 
 	
-<form class="container" #postForm="ngForm" (ngSubmit)="createPost(postForm)">
+<form class="container" #postForm="ngForm" (ngSubmit)="savePost(postForm)">
 	<div [@errorState]="errorState" class="errorsDiv">
 		<h3 class="errorTitle">Error</h3>
 		<div class="errorDiv">{{ error }}</div>
@@ -12,7 +12,7 @@
 		type="text" 
 		name="title" 
 		title
-		ngModel
+		[(ngModel)]="formValues.title"
 		placeholder="Title"
 		required
 		#title="ngModel"
@@ -35,17 +35,20 @@
 
 	</div>
 	<div class="file__names" *ngIf="file">
-		<span (click)="removeFile()"  class="fileName__span">{{ file.name }}</span>
+		<span (click)="file = null"  class="fileName__span">{{ file.name }}</span>
+	</div>
+	<div class="file__names" *ngIf="fileName">
+		<span (click)="fileName = null"  class="fileName__span">{{ fileName }}</span>
 	</div>
 
 	OR
 	<input 
-		[disabled]="file"
+		[disabled]="file || fileName"
 		class="title__input" 
 		type="text" 
 		name="link" 
 		link
-		ngModel
+		[(ngModel)]="formValues.link"
 		placeholder="Paste external link"
 		required
 		#link="ngModel"
@@ -60,11 +63,14 @@
 			class="hidden__input"
 			id="hide"
 			name="hidden"
-			ngModel
+			[(ngModel)]="formValues.hidden"
 			>
 	</div>
 
-	<button type="submit" class="create__btn" [disabled]="!postForm.valid">Create</button>
+	<button type="submit" class="create__btn" [disabled]="!postForm.valid">
+		<p *ngIf="!editMode">Create</p>
+		<p *ngIf="editMode">Update</p>
+	</button>
 
 </form>
 

@@ -18,6 +18,17 @@ export class PostsService {
 			});
 	}
 
+	updatePost(param: Params) {
+		return this.http.post(
+			'http://localhost:8000/post/updatePost', 
+			param, {
+				headers: new HttpHeaders({
+					'Accept': 'application/json',
+					Authorization: 'Bearer ' + localStorage.getItem('token')
+				})
+			});
+	}
+
 
 	addMargin(param: Params) {
 		return this.http.post(

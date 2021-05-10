@@ -339,12 +339,12 @@ export class MainComponent implements OnInit, OnDestroy {
   // ======= Post =======
 
   showPost(topic) {
-  	this.courseService.showPost(topic);
+  	this.courseService.showPost(null, topic);
   	document.getElementById('header').scrollIntoView({ behavior: 'smooth' });	
   }
 
   goToEditPost(feedPost, topicId) {
-    this.courseService.showPost(feedPost);
+    this.courseService.showPost(feedPost, topicId);
     document.getElementById('header').scrollIntoView({ behavior: 'smooth' });
   }
 
